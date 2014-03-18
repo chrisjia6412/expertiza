@@ -1,11 +1,20 @@
-require 'test/unit'
+require 'test_helper'
+require 'student_team_controller'
 
-class MyTest < Test::Unit::TestCase
+class StudentTeamControllerTest < ActionController::TestCase
+  fixtures :sign_up_topics, :assignments, :signed_up_users, :users, :roles, :due_dates
+  fixtures :site_controllers, :content_pages, :roles_permissions, :participants
+  fixtures :controller_actions, :permissions, :system_settings, :menu_items, :deadline_types
 
   # Called before every test method runs. Can be used
   # to set up fixture information.
   def setup
-    # Do nothing
+    @controller = StudentTeamController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+    @request.session[:user] = users(:admin)
+    Role.rebuild_cache
+    AuthController.set_current_role(users(:admin).role_id,@request.session)
   end
 
   # Called after every test method runs. Can be used to tear
@@ -19,5 +28,10 @@ class MyTest < Test::Unit::TestCase
   def test_fail
 
     fail('Not implemented')
+  end
+
+  def test_true
+
+    assert true
   end
 end
