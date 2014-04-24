@@ -12,9 +12,9 @@ class TeamsUser < ActiveRecord::Base
     TeamUserNode.find_by_node_object_id(self.id).destroy
     team = self.team
     self.destroy
-    if team.teams_users.length == 0
-      team.delete
-    end
+    #if team.teams_users.length == 0
+    #team.delete
+    #end
   end
 
   def hello
@@ -40,8 +40,10 @@ class TeamsUser < ActiveRecord::Base
 
   #Determines whether a team is empty of not
   def self.is_team_empty(team_id)
-    team_members = TeamsUser.first_by_team_id(team_id)
-    return team_members.nil? || team_members.length == 0
+    #team_members = TeamsUser.first_by_team_id(team_id)
+    #return team_members.nil? || team_members.length == 0
+    #return team_members.nil?
+    TeamsUser.where(team_id: team_id).count == 0
   end
 
   #Add member to the team they were invited to and accepted the invite for
